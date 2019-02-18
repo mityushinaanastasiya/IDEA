@@ -33,8 +33,6 @@ namespace ConsoleApp1
             {
                 key[i] = random.Next(2) == 0 ? true : false;
             }
-
-
             //разбиваем 128-битный ключ на восемь 16-битных блоков
             for (int j = 0; j < 8; j++) 
             {
@@ -84,9 +82,11 @@ namespace ConsoleApp1
         }
 
         //Сложение по модулю 2^16 то есть 65 536
-        static void addition (ushort A, ushort B)
+        static ushort addition (ushort A, ushort B)
         {
-
+            uint summ =Convert.ToUInt32(A + B);
+            ushort result = Convert.ToUInt16(summ % 65536);
+            return result;
         }
 
         //шифратор
@@ -122,6 +122,8 @@ namespace ConsoleApp1
                 ushort B = Convert.ToUInt16((I & 0x0000FFFF00000000) >> 32);
                 ushort C = Convert.ToUInt16((I & 0x00000000FFFF0000) >> 16);
                 ushort D = Convert.ToUInt16(I & 0x000000000000FFFF);
+
+                addition(65222, 30025);
 
             }
         }
