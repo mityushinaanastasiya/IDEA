@@ -70,9 +70,13 @@ namespace ConsoleApp1
         }
 
         //побитовое исключающее или
-        static void XOR(ushort A, ushort B)
+        static ushort XOR(ushort A, ushort B)
         {
-
+            uint result32;
+            uint A32 = Convert.ToUInt32(A);
+            uint B32 = Convert.ToUInt32(B);
+            result32 = A32 ^ B32;
+            return Convert.ToUInt16(result32);
         }
 
         //Умножение по модулю 2^16 + 1 то есть 65 537
@@ -123,7 +127,8 @@ namespace ConsoleApp1
                 ushort C = Convert.ToUInt16((I & 0x00000000FFFF0000) >> 16);
                 ushort D = Convert.ToUInt16(I & 0x000000000000FFFF);
 
-                addition(65222, 30025);
+
+                XOR(65222, 30025);
 
             }
         }
