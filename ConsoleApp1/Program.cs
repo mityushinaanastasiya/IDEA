@@ -10,8 +10,8 @@ namespace ConsoleApp1
 {
     class Program
     {
+        static BitArray key = new BitArray(128);
         static List<ushort> subKeys = new List<ushort>();
-        //static ushort[] outputTransform = new ushort[4];
         static void shiftKeyToLeft25 (BitArray key)
         {
             bool buf;
@@ -25,8 +25,16 @@ namespace ConsoleApp1
                 key[127] = buf;
             }
         }
-        static void generationKeys(BitArray key)
+        static void generationKeys()
         {
+            //случайная генерация ключа
+            Random random = new Random();
+            for (int i = 0; i < 128; i++)
+            {
+                key[i] = random.Next(2) == 0 ? true : false;
+            }
+
+
             //разбиваем 128-битный ключ на восемь 16-битных блоков
             for (int j = 0; j < 8; j++) 
             {
@@ -39,20 +47,8 @@ namespace ConsoleApp1
                 int[] buf = new int[1];
                 oneBlock.CopyTo(buf, 0); // получила в инт 32 
                 subKeys.Add(Convert.ToUInt16(buf[0])); 
-
-
-                //if (Enumerable.Range(0, 6).Contains(j))
-                //{
-                //    subKeys[0, j] = Convert.ToUInt16(buf[0]);
-                //    countSubKeys++;
-                //}
-                //else
-                //{
-                //    subKeys[1, j - 6] = Convert.ToUInt16(buf[0]);
-                //    countSubKeys++;
-                //}
             }
-            
+            //пока не 52 ключа выполняй
             while (subKeys.Count != 52)
             {
                 //сдвигаем на 25 бит влево
@@ -69,34 +65,65 @@ namespace ConsoleApp1
                     int[] buf = new int[1];
                     oneBlock.CopyTo(buf, 0); // получила в инт 32 
                     subKeys.Add(Convert.ToUInt16(buf[0]));
+                    //если это 52 подключ, то выход
                     if (subKeys.Count == 52) break;
                 }
             }
+        }
 
-       
+        //побитовое исключающее или
+        static void XOR(ushort A, ushort B)
+        {
+
+        }
+
+        //Умножение по модулю 2^16 + 1 то есть 65 537
+        static void multiplication (ushort A, ushort B)
+        {
+
+        }
+
+        //Сложение по модулю 2^16 то есть 65 536
+        static void addition (ushort A, ushort B)
+        {
+
+        }
+
+        //шифратор
+        static void encryptingIDEA ()
+        {
+
+        }
+
+        //дешифратор
+        static void decryptingIDEA ()
+        {
+
         }
         static void Main(string[] args)
         {
             string textHP = @".\HP.txt"; ;
-            FileStream fstream = new FileStream(textHP, FileMode.OpenOrCreate);
-            byte[] array = new byte[8];
-            BitArray key = new BitArray(128);
-            Random random = new Random();
-            for (int i = 0; i < 128; i++)
+            FileStream fstream = new FileStream(textHP, FileMode.Open);  
+            generationKeys();
+             
+            //считывание из файла по 64 бита и дробление на блоки по 16 бит 
+            while (fstream.CanRead)
             {
-                key[i] = random.Next(2) == 0 ? true : false;
+                byte[] array = new byte[8];
+                fstream.Read(array, 0, 8);
+                ulong I = 0;
+                I = array[0];
+                for (int i = 1; i < 8; i++)
+                {
+                    I = I << 8;
+                    I = I |= array[i];
+                }
+                ushort A = Convert.ToUInt16((I & 0xFFFF000000000000) >> 48);
+                ushort B = Convert.ToUInt16((I & 0x0000FFFF00000000) >> 32);
+                ushort C = Convert.ToUInt16((I & 0x00000000FFFF0000) >> 16);
+                ushort D = Convert.ToUInt16(I & 0x000000000000FFFF);
+
             }
-            generationKeys(key);
-            fstream.Read(array, 0, 8);
-            Int64 I = 0;
-            I = array[0];
-            for (int i = 1; i < 8; i++)
-            {
-                I = I << 8;
-                I = I |= array[i];
-            }
-            Int32 left = Convert.ToInt32(I >> 32);
-            Int32 Right = Convert.ToInt32(I & 0x00000000FFFFFFFF);
         }
     }
 }
