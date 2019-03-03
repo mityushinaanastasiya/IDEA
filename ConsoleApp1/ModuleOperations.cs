@@ -30,7 +30,7 @@ namespace ConsoleApp1
         /// <returns></returns>
         public ushort multiplication(ushort A, ushort B)
         {
-            if (A == 0 && B == 0) return 0;
+            if (A == 0 && B == 0) return 1;
             ulong Aulong = (A == 0) ? 65536 : Convert.ToUInt64(A);
             ulong Bulong = (B == 0) ? 65536 : Convert.ToUInt64(B);
             ulong mult = (Aulong * Bulong) % 65537;
