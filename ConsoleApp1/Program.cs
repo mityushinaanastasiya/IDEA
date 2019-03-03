@@ -123,12 +123,24 @@ namespace ConsoleApp1
             //и вычитанием 6 из индекса ключей шифрования
             for (int i = 0; i < 8; i++)
             {
-                subKeysDeshifr.Add(subKeys[46 - i * 6]);
-                subKeysDeshifr.Add(subKeys[47 - i * 6]);
-                subKeysDeshifr.Add(moduleOperations.multiplicationInversion(subKeys[42 - i * 6]));
-                subKeysDeshifr.Add(moduleOperations.additiveInversion(subKeys[44 - i * 6]));
-                subKeysDeshifr.Add(moduleOperations.additiveInversion(subKeys[43 - i * 6]));
-                subKeysDeshifr.Add(moduleOperations.multiplicationInversion(subKeys[45 - i * 6]));
+                if (i == 7)
+                {
+                    subKeysDeshifr.Add(subKeys[46 - i * 6]);
+                    subKeysDeshifr.Add(subKeys[47 - i * 6]);
+                    subKeysDeshifr.Add(moduleOperations.multiplicationInversion(subKeys[42 - i * 6]));
+                    subKeysDeshifr.Add(moduleOperations.additiveInversion(subKeys[43 - i * 6]));
+                    subKeysDeshifr.Add(moduleOperations.additiveInversion(subKeys[44 - i * 6]));
+                    subKeysDeshifr.Add(moduleOperations.multiplicationInversion(subKeys[45 - i * 6]));
+                }
+                else
+                {
+                    subKeysDeshifr.Add(subKeys[46 - i * 6]);
+                    subKeysDeshifr.Add(subKeys[47 - i * 6]);
+                    subKeysDeshifr.Add(moduleOperations.multiplicationInversion(subKeys[42 - i * 6]));
+                    subKeysDeshifr.Add(moduleOperations.additiveInversion(subKeys[44 - i * 6]));
+                    subKeysDeshifr.Add(moduleOperations.additiveInversion(subKeys[43 - i * 6]));
+                    subKeysDeshifr.Add(moduleOperations.multiplicationInversion(subKeys[45 - i * 6]));
+                }
             }
         }
 
